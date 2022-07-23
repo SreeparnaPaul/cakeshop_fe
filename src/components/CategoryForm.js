@@ -29,6 +29,21 @@ function CategoryForm() {
   return newErrors;
  }
 
+ const callApi = (categoryData)=>{
+    fetch("http://localhost:8082/category/addCategory",{
+      method:'POST',
+      headers:{
+        'Accept':'application/json',
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify(categoryData)
+    }).then( (reuslt)=>{
+      reuslt.json().then( (resp)=>{
+        console.log("resp ",resp)
+      })
+    })
+ }
+
  const handleSubmit=(e)=>{
     e.preventDefault();
     const formErrors =validateForm()
@@ -37,6 +52,16 @@ function CategoryForm() {
     }else{
       console.log("form submitted")
       console.log(form)
+      let categoryData={
+        categoryDescription:form.categoryDescription,
+        categoryName:form.categoryName,
+        status:1
+      }
+      callApi(categoryData);
+      setForm({
+        categoryName:"",
+        categoryDescription:""
+      });
     }
     
   }
